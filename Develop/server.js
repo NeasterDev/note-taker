@@ -11,6 +11,7 @@ var myObject = JSON.parse(data);
 // express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
 //catchall get
 app.get('/', (req, res) => {
@@ -31,7 +32,6 @@ app.get('/api/notes', (req,res) => {
             console.log('File read failed: ', err);
             return;
         }
-        notes.push(data);
         res.json({
             message: 'success',
             data: JSON.parse(data)
@@ -41,6 +41,7 @@ app.get('/api/notes', (req,res) => {
 
 // add a new note to the db
 app.post('/api/notes', ({ body }, res) => {
+    console.log("body: ", body);
     myObject.push(body);
     var newData = JSON.stringify(myObject, null, 2);
 
