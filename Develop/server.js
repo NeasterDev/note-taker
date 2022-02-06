@@ -32,10 +32,13 @@ app.get('/api/notes', (req,res) => {
             console.log('File read failed: ', err);
             return;
         }
-        res.json({
-            message: 'success',
-            data: JSON.parse(data)
-        })
+        res.json(JSON.parse(data));
+        // res.json({
+        //     message: 'success',
+        //     data: JSON.parse(data)
+        // })
+        // console.log('NOTES DATA: ' + data);
+        // return data;
     })
 });
 
