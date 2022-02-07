@@ -34,20 +34,8 @@ app.get('/api/notes', (req,res) => {
         }
         dataArray = JSON.parse(data);
         
-        // for (let i = 0; i < dataArray.length; i++) {
-        //     const note = dataArray[i];
-        //     note.id = i;
-            
-        // }
-        
-        //dataArray[dataArray.length - 1].id = dataArray.length - 1;
         res.json(dataArray);
-        // res.json({
-        //     message: 'success',
-        //     data: JSON.parse(data)
-        // })
-        // console.log('NOTES DATA: ' + data);
-        // return data;
+
     })
 });
 
