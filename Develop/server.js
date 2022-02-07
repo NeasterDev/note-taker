@@ -32,7 +32,16 @@ app.get('/api/notes', (req,res) => {
             console.log('File read failed: ', err);
             return;
         }
-        res.json(JSON.parse(data));
+        dataArray = JSON.parse(data);
+        
+        // for (let i = 0; i < dataArray.length; i++) {
+        //     const note = dataArray[i];
+        //     note.id = i;
+            
+        // }
+        
+        //dataArray[dataArray.length - 1].id = dataArray.length - 1;
+        res.json(dataArray);
         // res.json({
         //     message: 'success',
         //     data: JSON.parse(data)
@@ -46,6 +55,7 @@ app.get('/api/notes', (req,res) => {
 app.post('/api/notes', ({ body }, res) => {
     console.log("body: ", body);
     myObject.push(body);
+    myObject[myObject.length - 1].id = myObject.length - 1;
     var newData = JSON.stringify(myObject, null, 2);
 
     fs.writeFile(db, newData, err => {
@@ -58,10 +68,31 @@ app.post('/api/notes', ({ body }, res) => {
 // delete a note
 app.delete('/api/notes/:id', (req, res) => {
     const id = req.params.id;
-    res.json({
-        message: 'success',
-        data: id
-    })
+    console.log("Here");
+    fs.readFile(db, 'utf8', (err, data) => {
+        if (err) {
+            console.log('File read failed: ', err);
+            return;
+        }
+        dataArray = JSON.parse(data);
+        
+        if (dataArray[id]){
+            console.log("Now im here");
+            if (dataArray[id].id == id) {
+                console.log("id: " + dataArray[id].id);
+                dataArray.splice(id, 1);
+                console.log(dataArray);
+    
+                fs.writeFile(db, JSON.stringify(dataArray, null, 2), err => {
+                    if (err) throw err;
+    
+                    console.log(id + " removed");
+                })
+            }
+        }
+        
+    });
+    
 })
 
 app.listen(PORT, () => {
